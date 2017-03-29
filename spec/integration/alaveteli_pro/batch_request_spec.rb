@@ -52,19 +52,29 @@ describe "creating batch requests in alaveteli_pro" do
       # Searching
       fill_in "Search for an authority by name", with: "Example"
       click_button "Search"
-      expect(page).to have_text(authorities[0].name)
-      expect(page).to have_text(authorities[24].name)
-      expect(page).not_to have_text(authorities[25].name)
+
+      expect(page).to have_css(".batch-builder__authority-list__authority", count: 25)
+      first_page_results = page.find_all(".batch-builder__authority-list__authority__name").
+                                map(&:text).
+                                to_set
 
       # Paginating
       click_link "Next →"
-      expect(page).not_to have_text(authorities[24].name)
-      expect(page).to have_text(authorities[25].name)
+
+      expect(page).to have_css(".batch-builder__authority-list__authority", count: 1)
+      second_page_result = page.find(".batch-builder__authority-list__authority__name").
+                                text
+
+      expect(first_page_results.include?(second_page_result)).to be false
 
       click_link "← Previous"
-      expect(page).to have_text(authorities[0].name)
-      expect(page).to have_text(authorities[24].name)
-      expect(page).not_to have_text(authorities[25].name)
+      expect(page).to have_css(".batch-builder__authority-list__authority", count: 25)
+      first_page_results = page.find_all(".batch-builder__authority-list__authority__name").
+                                map(&:text).
+                                to_set
+
+      expect(first_page_results.include?(second_page_result)).to be false
+
 
       # Adding to list
       add_body_to_pro_batch(authorities[0])
