@@ -62,7 +62,7 @@ describe InfoRequestBatch do
                                             [FactoryGirl.create(:public_body)])).to be_nil
     end
 
-    it 'should not return a batch sent the same public bodies with a different title and body' do
+    it 'should not return a batch sent to the same public bodies with a different title and body' do
       expect(InfoRequestBatch.find_existing(info_request_batch.user,
                                             'Other title',
                                             'Other body',
