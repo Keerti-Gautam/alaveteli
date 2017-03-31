@@ -20,8 +20,8 @@
 
     <%= submit_tag n_('Send {{count}} requests',
                       'Send {{count}} requests',
-                      batch.public_bodies.length,
-                      :count => batch.public_bodies.length),
+                      batch.public_bodies.size,
+                      :count => batch.public_bodies.size),
                    :data => { :disable_with => _("Sending...") },
                    :id => 'submit_button' %>
     <%= link_to _("Edit your request"),
