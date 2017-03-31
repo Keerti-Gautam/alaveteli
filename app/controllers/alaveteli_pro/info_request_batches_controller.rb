@@ -18,7 +18,7 @@ class AlaveteliPro::InfoRequestBatchesController < AlaveteliPro::BaseController
     if all_models_valid?
       render 'alaveteli_pro/info_requests/preview'
     else
-      tidy_up_errors
+      remove_duplicate_errors
       render 'alaveteli_pro/info_requests/new'
     end
   end
@@ -31,7 +31,7 @@ class AlaveteliPro::InfoRequestBatchesController < AlaveteliPro::BaseController
       @draft_info_request_batch.destroy
       redirect_to show_alaveteli_pro_batch_request_path(id: @info_request_batch.id)
     else
-      tidy_up_errors
+      remove_duplicate_errors
       render 'alaveteli_pro/info_requests/new'
     end
   end
@@ -48,10 +48,10 @@ class AlaveteliPro::InfoRequestBatchesController < AlaveteliPro::BaseController
     # from it, as well as the embargo object. The outgoing message will have
     # a templated body from our template, allowing us to present a more
     # realistic preview to the user.
-    # We can also use these objects to valid the batch, checking that it will
-    # create valid requests against the constraints they have on subject lines
-    # and body content.
-    @example_info_request = @info_request_batch.example_request(draft.embargo_duration)
+    # We can also use these objects to validate the batch, checking that it
+    # will create valid requests against the constraints they have on subject
+    # lines and body content.
+    @example_info_request = @info_request_batch.example_request
     @embargo = @example_info_request.embargo
     @outgoing_message = @example_info_request.outgoing_messages.first
   end
@@ -63,12 +63,12 @@ class AlaveteliPro::InfoRequestBatchesController < AlaveteliPro::BaseController
     @info_request_batch.valid?
   end
 
-  def tidy_up_errors
+  def remove_duplicate_errors
     # Tidy up the errors because there will be duplicates
     # When there's an error on the outgoing messages, it will also appear on
     # the request, so remove that version
     @example_info_request.errors.delete(:outgoing_messages)
-    # If these have errors, the example info_request will to, and they'll be
+    # If these have errors, the example info_request will too, and they'll be
     # better messages, so we show them instead.
     @info_request_batch.errors.delete(:title)
     @info_request_batch.errors.delete(:body)
