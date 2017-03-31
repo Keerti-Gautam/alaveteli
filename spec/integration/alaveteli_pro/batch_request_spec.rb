@@ -311,7 +311,7 @@ describe "creating batch requests in alaveteli_pro" do
 
       expect(batch.body).to eq "Dear [Authority name], this is a batch request."
       expect(batch.embargo_duration).to eq "3_months"
-      expect(batch.public_bodies).to eq @selected_bodies
+      expect(batch.public_bodies).to match_array(@selected_bodies)
     end
   end
 end
