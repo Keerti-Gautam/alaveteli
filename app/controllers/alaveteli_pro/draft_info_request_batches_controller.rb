@@ -60,9 +60,12 @@ class AlaveteliPro::DraftInfoRequestBatchesController < ApplicationController
                         :page => page }
   end
 
+  # #create and #update accept an array of public_body_ids, whereas
+  # #update_bodies only take a single body to add or remove, hence the two
+  # different params.
   def draft_params
     params.require(:alaveteli_pro_draft_info_request_batch).
-      permit(:title, :body, :public_body_ids, :embargo_duration)
+      permit(:title, :body, :embargo_duration, :public_body_ids, )
   end
 
   def draft_params_multiple_bodies
