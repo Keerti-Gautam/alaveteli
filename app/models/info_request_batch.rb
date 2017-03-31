@@ -101,7 +101,7 @@ class InfoRequestBatch < ActiveRecord::Base
   end
 
   # Build an InfoRequest object which is an example of this batch.
-  def example_request(embargo_duration=nil)
+  def example_request()
     public_body = self.public_bodies.first
     body = OutgoingMessage.fill_in_salutation(self.body, public_body)
     info_request = InfoRequest.create_from_attributes(
