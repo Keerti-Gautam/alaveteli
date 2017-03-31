@@ -1,5 +1,5 @@
 <%= form_tag([:alaveteli_pro, @draft_info_request],
-             method: @draft_info_request.id ? :put : :post,
+             :method => @draft_info_request.id ? :put : :post,
              :id => 'write_form',
              :class => 'new_info_request') do %>
 
