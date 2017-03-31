@@ -9,14 +9,14 @@
 
   var authorityInListSelector = '.batch-builder__authority-list__authority';
 
-  // Enable the 'write request' button, if there are any selected requests
+  // Enable the 'write request' button, if there are any selected authorities
   var enableButton = function enableButton() {
     if($draftSummary.find(authorityInListSelector).length > 0) {
       $writeButton.prop('disabled', false);
     }
   };
 
-  // Disable the 'write request' button, if there are no selected requests
+  // Disable the 'write request' button, if there are no selected authorities
   var disableButton = function disableButton() {
     if($draftSummary.find(authorityInListSelector).length === 0) {
       $writeButton.prop('disabled', true);
